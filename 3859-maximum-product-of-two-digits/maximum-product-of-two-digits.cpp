@@ -7,6 +7,8 @@ public:
             n = n/10;
         }
         sort(digits.begin(), digits.end());
-        return ((digits[digits.size()-1]) * (digits[digits.size()-2]));
+        reverse(digits.begin(), digits.end());
+        return (digits[0]*digits[1]);
+        // return ((digits[digits.size()-1]) * (digits[digits.size()-2]));
     }
 };
