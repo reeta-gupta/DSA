@@ -1,24 +1,37 @@
 class Solution {
 public:
-    // int solve(int i, int j, vector<int>& piles){
-    //     if(i > j) return false;
-    //     if(i == j) return piles[i];
+    int solve(int i, int j, vector<int>& piles, vector<vector<int>>& dp){
 
-    //     int take_i = piles[i] + min(solve(i+2, j, piles), solve(i+1, j-1, piles));
-    //     int take_j = piles[j] + min(solve(i+1, j-1, piles), solve(i, j-2, piles));
+        if(i > j) return 0;
+        if(i == j) return piles[i];
 
-    //     return max(take_i, take_j);
-    // }
+        if(dp[i][j] != -1)
+            return dp[i][j];
+
+        int take_i = piles[i] +
+                     min(solve(i+2, j, piles, dp),
+                         solve(i+1, j-1, piles, dp));
+
+        int take_j = piles[j] +
+                     min(solve(i+1, j-1, piles, dp),
+                         solve(i, j-2, piles, dp));
+
+        return dp[i][j] = max(take_i, take_j);
+    }
+
     bool stoneGame(vector<int>& piles) {
-        // int n = piles.size();
-        // int sum = 0;
-        // for(int i = 0; i < n; i++){
-        //     sum += piles[i];
-        // }
 
-        // int aliceScore = solve(0, n-1, piles);
-        // int bobScore = sum - aliceScore;
-        // return aliceScore > bobScore;
-        return true;
+        int n = piles.size();
+
+        vector<vector<int>> dp(n, vector<int>(n, -1));
+
+        int sum = 0;
+        for(int x : piles)
+            sum += x;
+
+        int aliceScore = solve(0, n-1, piles, dp);
+        int bobScore = sum - aliceScore;
+
+        return aliceScore > bobScore;
     }
 };
