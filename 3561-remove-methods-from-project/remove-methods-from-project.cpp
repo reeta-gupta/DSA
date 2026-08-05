@@ -10,7 +10,6 @@ public:
         }
     }
     vector<int> remainingMethods(int n, int k, vector<vector<int>>& invocations) {
-        vector<int> ans;
         int x = invocations.size();
         vector<vector<int>> adj(n);
         for(auto &edge : invocations){
