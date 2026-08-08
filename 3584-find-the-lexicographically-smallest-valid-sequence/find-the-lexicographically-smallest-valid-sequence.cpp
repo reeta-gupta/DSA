@@ -1,28 +1,51 @@
 class Solution {
 public:
     vector<int> validSequence(string word1, string word2) {
-        int len2 = word2.length();
-        int len1 = word1.length();
-        vector<int> ans(len2, -1);
-        int j = len2-1;
-        for(int i = len1-1; i >= 0; i--){
-            if(j >= 0 && word1[i] == word2[j]){
-                ans[j] = i;
-                j-=1;
+        int n = word1.size();
+        int m = word2.size();
+
+        vector<int> nextPos(m, -1);
+
+        int j = m - 1;
+
+        for (int i = n - 1; i >= 0 && j >= 0; i--) {
+            if (word1[i] == word2[j]) {
+                nextPos[j] = i;
+                j--;
             }
         }
 
-        vector<int> res;
-         j = 0;
-        int skip = 0;
-        for(int i = 0; i < len1; i++){
-            if(j == len2) break;
-            if(word1[i] == word2[j] || (skip == 0 && (j == len2-1 || i < ans[j+1]))){
-                skip += (word1[i] != word2[j])? 1 : 0;
-                res.push_back(i);
-                j += 1;
+        vector<int> result;
+        j = 0;
+        bool changed = false;
+
+        for (int i = 0; i < n && j < m; i++) {
+
+            if (word1[i] == word2[j]) {
+                result.push_back(i);
+                j++;
+            }
+
+            else if (!changed) {
+                if (j == m - 1) {
+                    result.push_back(i);
+                    changed = true;
+                    j++;
+                }
+
+                else if (nextPos[j + 1] != -1 &&
+                         i < nextPos[j + 1]) {
+
+                    result.push_back(i);
+                    changed = true;
+                    j++;
+                }
             }
         }
-        return j == len2? res : vector<int>();
+
+        if (j == m)
+            return result;
+
+        return {};
     }
 };
