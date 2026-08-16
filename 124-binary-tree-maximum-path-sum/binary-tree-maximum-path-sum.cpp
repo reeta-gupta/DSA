@@ -11,7 +11,6 @@
  */
 class Solution {
 public:
-    int sum = 0;
     int nodeSum(TreeNode* root, int &sum){
         if(root == NULL) return 0;
         int leftS = max(0, nodeSum(root->left , sum));
